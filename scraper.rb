@@ -69,7 +69,8 @@ class Scraper
     # Remove suburb prefix if present
     text = text.gsub(/^#{Regexp.escape(suburb)}\s*-?\s*/, "") if suburb.to_s != ""
 
-    clean_whitespace(text)
+    # Remove hyphen left behind when the council reference ended the name
+    clean_whitespace(text).sub(/\s*-\z/, "")
   end
 
   def run
