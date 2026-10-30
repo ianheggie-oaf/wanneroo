@@ -76,6 +76,14 @@ class Scraper
     agent = Mechanize.new
     agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
+    if ENV["MORPH_AUSTRALIAN_PROXY"]
+      # On morph.io set the environment variable MORPH_AUSTRALIAN_PROXY to
+      # http://morph:password@au.proxy.oaf.org.au:8888 replacing password with
+      # the real password.
+      puts "Using Australian proxy..."
+      agent.agent.set_proxy(ENV["MORPH_AUSTRALIAN_PROXY"])
+    end
+
     page = throttle_block do
       puts "Getting planning-proposals page"
       agent.get(INITIAL_PAGE_URL)
